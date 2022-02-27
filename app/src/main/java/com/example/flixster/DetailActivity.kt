@@ -59,13 +59,13 @@ class DetailActivity : YouTubeBaseActivity() {
                 }
                 val movieTrailerJson = results.getJSONObject(0)
                 val youtubeKey = movieTrailerJson.getString("key")
-                initializeYoutube(youtubeKey)
+                initializeYoutube(youtubeKey, movie.voteAverage > 5)
             }
 
         })
     }
 
-    private fun initializeYoutube(youtubeKey: String) {
+    private fun initializeYoutube(youtubeKey: String, popular: Boolean) {
         ytPlayerView.initialize(YOUTUBE_API_KEY, object: YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(
                 provider: YouTubePlayer.Provider?,
@@ -73,7 +73,11 @@ class DetailActivity : YouTubeBaseActivity() {
                 p2: Boolean
             ) {
                 Log.i(TAG, "onInitializationSuccess")
-                player?.cueVideo(youtubeKey)
+                if (popular) {
+                    player?.loadVideo(youtubeKey)
+                } else {
+                    player?.cueVideo(youtubeKey)
+                }
             }
 
             override fun onInitializationFailure(

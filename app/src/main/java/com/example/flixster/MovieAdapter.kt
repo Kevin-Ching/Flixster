@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.media.Image
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 const val MOVIE_EXTRA = "MOVIE_EXTRA"
 
@@ -35,6 +38,7 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         private val ivPoster = itemView.findViewById<ImageView>(R.id.ivPoster)
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvOverview = itemView.findViewById<TextView>(R.id.tvOverview)
+//        private val ibPlayIcon = itemView.findViewById<ImageView>(R.id.ibPlayIcon)
 
         init {
             itemView.setOnClickListener(this)
