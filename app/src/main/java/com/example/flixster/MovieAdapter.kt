@@ -1,6 +1,7 @@
 package com.example.flixster
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.media.Image
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+
+const val MOVIE_EXTRA = "MOVIE_EXTRA"
 
 class MovieAdapter(private val context: Context, private val movies: List<Movie>)
     : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -27,11 +30,15 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
 
     override fun getItemCount() = movies.size
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val ivPoster = itemView.findViewById<ImageView>(R.id.ivPoster)
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvOverview = itemView.findViewById<TextView>(R.id.tvOverview)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
@@ -41,6 +48,13 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
                 ImageUrl = movie.backdropImageUrl
             }
             Glide.with(context).load(ImageUrl).into(ivPoster)
+        }
+
+        override fun onClick(v: View?) {
+            val movie = movies[adapterPosition]
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(MOVIE_EXTRA, movie)
+            context.startActivity(intent)
         }
 
     }
